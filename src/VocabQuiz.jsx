@@ -1,7 +1,5 @@
 
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 
 const wordBank = [
   { word: "cooperate", meaning: "to work together" },
@@ -49,31 +47,30 @@ export default function VocabQuiz() {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-4 space-y-4">
-      <h1 className="text-2xl font-bold text-center">Vocabulary Quiz</h1>
+    <div className="container">
+      <h1>Vocabulary Quiz</h1>
 
-      <div className="flex justify-center gap-2">
+      <div className="buttons">
         <button onClick={() => setMode("word")}>Word → Meaning</button>
         <button onClick={() => setMode("meaning")}>Meaning → Word</button>
         <button onClick={() => setMode("mixed")}>Mixed</button>
       </div>
 
-      <button onClick={generateQuestion} className="w-full">Next Question</button>
+      <button onClick={generateQuestion} className="full-width">Next Question</button>
 
       {currentQ && (
-        <div className="p-4 bg-white border rounded space-y-2">
-          <div className="text-lg font-medium">
+        <div className="quiz-box">
+          <div className="question">
             {currentQ.quizMode === "word" ? currentQ.word : currentQ.meaning}
           </div>
           <input
             type="text"
-            className="w-full p-2 border rounded"
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
             placeholder="Your answer"
           />
-          <button onClick={checkAnswer} className="w-full bg-blue-500 text-white p-2 rounded">Submit</button>
-          {feedback && <div className="mt-2 text-center font-semibold">{feedback}</div>}
+          <button onClick={checkAnswer}>Submit</button>
+          {feedback && <div className="feedback">{feedback}</div>}
         </div>
       )}
     </div>
