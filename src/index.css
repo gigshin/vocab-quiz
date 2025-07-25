@@ -1,1 +1,44 @@
-body { font-family: sans-serif; padding: 1rem; }
+body {
+  font-family: sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+.container {
+  max-width: 600px;
+  margin: auto;
+  padding: 2rem;
+  background: white;
+  min-height: 100vh;
+}
+h1 {
+  text-align: center;
+}
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+button {
+  padding: 0.5rem 1rem;
+  font-size: 16px;
+}
+.full-width {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+.quiz-box {
+  background: #eef;
+  padding: 1rem;
+  border-radius: 8px;
+}
+input[type="text"] {
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  font-size: 16px;
+}
+.feedback {
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
