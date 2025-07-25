@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const wordBank = [
   { word: "cooperate", meaning: "to work together" },
@@ -25,6 +25,9 @@ export default function VocabQuiz() {
   const [attempts, setAttempts] = useState([]);
   const [firstTry, setFirstTry] = useState(true);
   const [correctCount, setCorrectCount] = useState(0);
+  const [lastResult, setLastResult] = useState(null);
+  const [highlightNext, setHighlightNext] = useState(false);
+  const nextBtnRef = useRef(null);
 
   const generateQuestion = () => {
     const entry = wordBank[Math.floor(Math.random() * wordBank.length)];
@@ -34,6 +37,9 @@ export default function VocabQuiz() {
     setAnswer("");
     setFeedback("");
     setFirstTry(true);
+    setLastResult(null);
+    setHighlightNext(true);
+    setTimeout(() => setHighlightNext(false), 500);
   };
 
   const checkAnswer = () => {
@@ -47,6 +53,8 @@ export default function VocabQuiz() {
       setFeedback("✅ Correct!");
       setAttempts(prev => [true, ...prev].slice(0, 30));
       setCorrectCount(count => count + 1);
+      setLastResult("correct");
+      setTimeout(() => generateQuestion(), 1200);
     } else {
       if (firstTry) {
         setFeedback("❗ Think one more time❤");
@@ -54,6 +62,8 @@ export default function VocabQuiz() {
       } else {
         setFeedback(`❌ Wrong. Correct: ${correct}`);
         setAttempts(prev => [false, ...prev].slice(0, 30));
+        setLastResult("wrong");
+        setTimeout(() => generateQuestion(), 1200);
       }
     }
   };
@@ -90,6 +100,17 @@ export default function VocabQuiz() {
     );
   };
 
+  const renderImage = () => {
+    if (!currentQ) return null;
+    if (lastResult === "correct") {
+      return <img src="/IMG_0332.jpeg" alt="Correct" width="120" />;
+    } else if (lastResult === "wrong") {
+      return <img src="/IMG_0355.jpeg" alt="Wrong" width="120" />;
+    } else {
+      return <img src="/IMG_9955.jpeg" alt="Quiz" width="120" />;
+    }
+  };
+
   return (
     <div className="container">
       <h1>❤Luna's Vocabulary Quiz❤</h1>
@@ -115,7 +136,12 @@ export default function VocabQuiz() {
         </button>
       </div>
 
-      <button onClick={generateQuestion} className="full-width">
+      <button
+        ref={nextBtnRef}
+        onClick={generateQuestion}
+        className="full-width"
+        style={{ backgroundColor: highlightNext ? "#ffeb3b" : "" }}
+      >
         Next Question
       </button>
 
@@ -139,6 +165,8 @@ export default function VocabQuiz() {
         <strong>최근 30회 정답률:</strong>
         {renderGauge()}
       </div>
+
+      <div style={{ marginTop: "1rem" }}>{renderImage()}</div>
     </div>
   );
 }
